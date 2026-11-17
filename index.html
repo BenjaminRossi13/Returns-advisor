@@ -261,7 +261,7 @@ nav.tabs a.home svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-
     <div class="panel yearbar">
       <div><label for="dn-year">Année</label><select id="dn-year"></select></div>
       <div><label for="dn-taux">Taux de réduction (%)</label><input type="number" id="dn-taux" min="0" max="100" step="1" value="60"></div>
-      <div><label for="dn-ca">Chiffre d'affaires HT annuel (€)</label><input type="number" id="dn-ca" min="0" step="100000" value="10000000"></div>
+      <div><label for="dn-ca">Chiffre d'affaires HT annuel (€)</label><input type="number" id="dn-ca" min="0" step="100000" value="215000"></div>
     </div>
     <div class="kpis section" id="dn-kpis"></div>
     <div class="section"><h3 id="dn-mtitle">Par mois</h3><div class="tablewrap"><table id="t-dn-mois"></table></div></div>
@@ -273,7 +273,8 @@ nav.tabs a.home svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-
         <li>Réduction d'impôt de 60 % du montant des dons (article 238 bis du Code général des impôts), 40 % pour la part des dons qui dépasse 2 M€ dans l'année, sauf pour les organismes d'aide aux personnes en difficulté qui restent à 60 %.</li>
         <li>Plafond : 20 000 € de dons par an ou 0,5 % du chiffre d'affaires HT si ce montant est plus élevé. La part au dessus du plafond se reporte sur les cinq exercices suivants.</li>
         <li>Don en nature valorisé au coût de revient du stock : ici la valeur de stock de l'article dans son état (40 % du prix de vente, puis 75 % en bon état et 30 % en mauvais état).</li>
-        <li>L'association bénéficiaire doit être éligible et remettre un reçu fiscal (formulaire Cerfa n° 16216). Exercice comptable supposé égal à l'année civile ; le chiffre d'affaires est une hypothèse à fixer.</li>
+        <li>L'association bénéficiaire doit être éligible et remettre un reçu fiscal (formulaire Cerfa n° 16216). Exercice comptable supposé égal à l'année civile.</li>
+        <li>Chiffre d'affaires estimé à 215 000 € HT : 46 405 € de retours sur 12 mois divisés par un taux de retour de 18 % en mode en ligne (Shipup by ZigZag et Sapio Research, mai 2026), soit environ 258 000 € TTC. Le plafond reste donc de 20 000 €.</li>
       </ul>
       <p class="note">Source : ministère de la Culture, <a href="https://www.culture.gouv.fr/Thematiques/Mecenat/Entreprises/Le-regime-fiscal-general" target="_blank" rel="noopener">Le régime fiscal général du mécénat d'entreprise</a>, consulté le 17/11/2026.</p>
     </div>
@@ -411,15 +412,15 @@ function parseSheets(S){
 }
 
 /* ---------- state ---------- */
-const KEY="rda-proto0-v3";
+const KEY="rda-proto0-v4";
 let SHEET=SHEET0, SRC="Google Sheet « HUMAN & AI V2 », copie du 15/11/2026, onglet Juridique mis à jour le 17/11/2026";
 try{ const s=JSON.parse(localStorage.getItem(KEY+"-sheet")||"null"); if(s&&s.sheet){ SHEET=s.sheet; SRC=s.src; } }catch(e){}
 let D, ORIG, S, TYPES, stock, baseRet;
 function load(){
   D=parseSheets(SHEET);
   ORIG={rules:JSON.parse(JSON.stringify(D.rules)),params:JSON.parse(JSON.stringify(D.params))};
-  S={rules:JSON.parse(JSON.stringify(D.rules)),params:JSON.parse(JSON.stringify(D.params)),espr:"oui",added:[],refused:[],taux:60,ca:10000000,sig:SRC};
-  try{ const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s&&s.sig===SRC&&s.rules) S=Object.assign({refused:[],taux:60,ca:10000000},s); }catch(e){}
+  S={rules:JSON.parse(JSON.stringify(D.rules)),params:JSON.parse(JSON.stringify(D.params)),espr:"oui",added:[],refused:[],taux:60,ca:215000,sig:SRC};
+  try{ const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s&&s.sig===SRC&&s.rules) S=Object.assign({refused:[],taux:60,ca:215000},s); }catch(e){}
   TYPES=[...new Set(D.rules.map(r=>r.type).filter(t=>t!=="TOUTES"))].sort((a,b)=>b.length-a.length);
   stock=D.stock.map(s=>Object.assign({},s,{type:typeOf(s.des)}));
   baseRet=D.ret.map(r=>Object.assign({},r,{type:typeOf(r.des)}));
@@ -637,7 +638,7 @@ function bind(){
   $("t-rules").addEventListener("click",e=>{const b=e.target.closest("[data-del]"); if(!b) return; const r=S.rules.splice(+b.dataset.del,1)[0]; save(); refreshAll(); toast(`Règle ${r.id} supprimée`);});
   $("nr-cat").onchange=fillNrTypes;
   $("f-rule").addEventListener("submit",e=>{e.preventDefault(); let n=1; while(S.rules.find(r=>r.id==="N"+n)) n++; const mn=parseFloat($("nr-min").value); const r={prio:parseFloat($("nr-prio").value)||0,id:"N"+n,cat:$("nr-cat").value,type:$("nr-type").value,etat:$("nr-etat").value,min:isNaN(mn)?null:mn,sv:null,voie:$("nr-voie").value,just:$("nr-just").value.trim()||"Règle ajoutée dans l'outil"}; S.rules.push(r); save(); refreshAll(); toast(`Règle ${r.id} ajoutée`);});
-  $("reset").onclick=()=>{S={rules:JSON.parse(JSON.stringify(ORIG.rules)),params:JSON.parse(JSON.stringify(ORIG.params)),espr:"oui",added:[],refused:[],taux:60,ca:10000000,sig:SRC}; save(); initForms(); refreshAll(); toast("Données chargées rétablies");};
+  $("reset").onclick=()=>{S={rules:JSON.parse(JSON.stringify(ORIG.rules)),params:JSON.parse(JSON.stringify(ORIG.params)),espr:"oui",added:[],refused:[],taux:60,ca:215000,sig:SRC}; save(); initForms(); refreshAll(); toast("Données chargées rétablies");};
   $("xlsx").addEventListener("change",async e=>{const f=e.target.files[0]; if(!f) return; try{ if(!window.XLSX) throw new Error("lecteur Excel indisponible"); const wb=XLSX.read(await f.arrayBuffer(),{type:"array"}); const get=n=>{const k=wb.SheetNames.find(x=>norm(x)===norm(n))||wb.SheetNames.find(x=>norm(x).startsWith(norm(n)+" ")); if(!k) throw new Error("onglet « "+n+" » introuvable"); return XLSX.utils.sheet_to_json(wb.Sheets[k],{header:1,raw:false,defval:""}).map(r=>r.map(v=>String(v)));};
     const sh={STOCK:get("STOCK"),RETOURS:get("RETOURS CLIENTS INBOUND"),REGLES:get("Règles de Décision"),PARAMS:get("Paramètres"),JURIDIQUE:get("Juridique"),CAS:get("Cas limites")};
     parseSheets(sh); SHEET=sh; SRC=`fichier « ${f.name} » importé le ${new Date().toLocaleString("fr-FR")}`; try{ localStorage.setItem(KEY+"-sheet",JSON.stringify({sheet:sh,src:SRC})); }catch(_){}
