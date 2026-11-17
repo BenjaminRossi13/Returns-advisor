@@ -303,7 +303,8 @@ nav.tabs a.home svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-
     <div class="panel section">
       <h3>Contexte réglementaire</h3>
       <label for="espr">Entreprise de grande taille au sens du règlement européen ESPR</label>
-      <select id="espr" style="max-width:280px"><option value="oui">Oui : alertes ESPR affichées</option><option value="non">Non : alertes ESPR masquées</option></select>
+      <select id="espr" style="max-width:280px"><option value="non">Non : alertes ESPR masquées</option><option value="oui">Oui : alertes ESPR affichées</option></select>
+      <p class="note">L'interdiction de détruire prévue par le règlement ESPR (article 25) vise les grandes entreprises depuis le 19/07/2026 et les moyennes à partir du 19/07/2030. Les petites et micro-entreprises sont exemptées. Notre e-commerçant fictif (215 000 € de chiffre d'affaires estimé) est une micro-entreprise : réglage sur Non. La loi AGEC (alerte J01) s'applique quelle que soit la taille.</p>
     </div>
     <form class="panel section" id="f-rule" autocomplete="off">
       <h3>Ajouter une règle</h3>
@@ -366,7 +367,7 @@ nav.tabs a.home svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-
         <dt>Logique de décision</dt><dd>La première règle qui correspond à la catégorie, au type de produit (déduit de la désignation), à l'état et, s'il est fixé, au seuil de valeur client donne la voie, par priorité croissante. Les règles par défaut couvrent tout article du catalogue dont le type n'est pas reconnu, sans jamais choisir la destruction. Un article dont la référence n'existe pas dans l'outil est refusé à la réception, sauf si l'opérateur crée d'abord la référence (catégorie, type, prix) : la voie est alors calculée comme pour un article du catalogue.</dd>
         <dt>Dons</dt><dd>Les articles orientés vers le don sont regroupés par mois et par année selon la date du retour. Réduction d'impôt = taux (60 %) × valeur de stock donnée, dans la limite de 20 000 € ou 0,5 % du chiffre d'affaires HT.</dd>
         <dt>Calculs</dt><dd>Coût = quantité × coût de manutention de la voie. Valeur récupérée = quantité × prix de vente × pourcentage récupéré. Résultat net = valeur récupérée − coût.</dd>
-        <dt>Conformité</dt><dd>Alertes de l'onglet Juridique : loi AGEC, règlement européen ESPR et règlement délégué 2026/296, sécurité des produits, Code de la consommation, Code général des impôts. Les alertes ESPR ne s'affichent que pour une grande entreprise.</dd>
+        <dt>Conformité</dt><dd>Alertes de l'onglet Juridique : loi AGEC, règlement européen ESPR et règlement délégué 2026/296, sécurité des produits, Code de la consommation, Code général des impôts. Les alertes ESPR ne s'affichent que pour une grande entreprise. Avec 215 000 € de chiffre d'affaires estimé, notre e-commerçant est une micro-entreprise : le réglage est sur Non par défaut et se change dans Règles et paramètres.</dd>
         <dt>Statut client</dt><dd>Avoirisé ou non avoirisé : affiché à titre d'information, il ne décide pas de la voie physique de l'article (alerte J14).</dd>
         <dt>Limites</dt><dd>Paramètres sourcés sur des références publiques (benchmark logistique France 2026, études sur la revente des retours 2026), sauf le coût de nettoyage du reconditionnement, qui reste une hypothèse de l'équipe. Pas d'information « emballage scellé » pour les sous-vêtements. Les modifications faites ici restent dans votre navigateur ; pour suivre le Google Sheet, rechargez-le avec le bouton ci-dessus.</dd>
       </dl>
@@ -422,14 +423,14 @@ function parseSheets(S){
 }
 
 /* ---------- state ---------- */
-const KEY="rda-proto0-v4";
+const KEY="rda-proto0-v5";
 let SHEET=SHEET0, SRC="Google Sheet « HUMAN & AI V2 », copie du 15/11/2026, onglets Juridique, Paramètres et Règles mis à jour le 17/11/2026";
 try{ const s=JSON.parse(localStorage.getItem(KEY+"-sheet")||"null"); if(s&&s.sheet){ SHEET=s.sheet; SRC=s.src; } }catch(e){}
 let D, ORIG, S, TYPES, stock, baseRet;
 function load(){
   D=parseSheets(SHEET);
   ORIG={rules:JSON.parse(JSON.stringify(D.rules)),params:JSON.parse(JSON.stringify(D.params))};
-  S={rules:JSON.parse(JSON.stringify(D.rules)),params:JSON.parse(JSON.stringify(D.params)),espr:"oui",added:[],refused:[],created:[],taux:60,ca:215000,sig:SRC};
+  S={rules:JSON.parse(JSON.stringify(D.rules)),params:JSON.parse(JSON.stringify(D.params)),espr:"non",added:[],refused:[],created:[],taux:60,ca:215000,sig:SRC};
   try{ const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s&&s.sig===SRC&&s.rules) S=Object.assign({refused:[],created:[],taux:60,ca:215000},s); }catch(e){}
   TYPES=[...new Set(D.rules.map(r=>r.type).filter(t=>t!=="TOUTES"))].sort((a,b)=>b.length-a.length);
   stock=D.stock.concat(S.created||[]).map(s=>Object.assign({},s,{type:s.type||typeOf(s.des)}));
@@ -665,7 +666,7 @@ function bind(){
   $("t-rules").addEventListener("click",e=>{const b=e.target.closest("[data-del]"); if(!b) return; const r=S.rules.splice(+b.dataset.del,1)[0]; save(); refreshAll(); toast(`Règle ${r.id} supprimée`);});
   $("nr-cat").onchange=fillNrTypes;
   $("f-rule").addEventListener("submit",e=>{e.preventDefault(); let n=1; while(S.rules.find(r=>r.id==="N"+n)) n++; const mn=parseFloat($("nr-min").value); const r={prio:parseFloat($("nr-prio").value)||0,id:"N"+n,cat:$("nr-cat").value,type:$("nr-type").value,etat:$("nr-etat").value,min:isNaN(mn)?null:mn,sv:null,voie:$("nr-voie").value,just:$("nr-just").value.trim()||"Règle ajoutée dans l'outil"}; S.rules.push(r); save(); refreshAll(); toast(`Règle ${r.id} ajoutée`);});
-  $("reset").onclick=()=>{S={rules:JSON.parse(JSON.stringify(ORIG.rules)),params:JSON.parse(JSON.stringify(ORIG.params)),espr:"oui",added:[],refused:[],created:[],taux:60,ca:215000,sig:SRC}; stock=D.stock.map(s=>Object.assign({},s,{type:typeOf(s.des)})); save(); initForms(); refreshAll(); toast("Données chargées rétablies");};
+  $("reset").onclick=()=>{S={rules:JSON.parse(JSON.stringify(ORIG.rules)),params:JSON.parse(JSON.stringify(ORIG.params)),espr:"non",added:[],refused:[],created:[],taux:60,ca:215000,sig:SRC}; stock=D.stock.map(s=>Object.assign({},s,{type:typeOf(s.des)})); save(); initForms(); refreshAll(); toast("Données chargées rétablies");};
   $("xlsx").addEventListener("change",async e=>{const f=e.target.files[0]; if(!f) return; try{ if(!window.XLSX) throw new Error("lecteur Excel indisponible"); const wb=XLSX.read(await f.arrayBuffer(),{type:"array"}); const get=n=>{const k=wb.SheetNames.find(x=>norm(x)===norm(n))||wb.SheetNames.find(x=>norm(x).startsWith(norm(n)+" ")); if(!k) throw new Error("onglet « "+n+" » introuvable"); return XLSX.utils.sheet_to_json(wb.Sheets[k],{header:1,raw:false,defval:""}).map(r=>r.map(v=>String(v)));};
     const sh={STOCK:get("STOCK"),RETOURS:get("RETOURS CLIENTS INBOUND"),REGLES:get("Règles de Décision"),PARAMS:get("Paramètres"),JURIDIQUE:get("Juridique"),CAS:get("Cas limites")};
     parseSheets(sh); SHEET=sh; SRC=`fichier « ${f.name} » importé le ${new Date().toLocaleString("fr-FR")}`; try{ localStorage.setItem(KEY+"-sheet",JSON.stringify({sheet:sh,src:SRC})); }catch(_){}
