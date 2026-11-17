@@ -1,0 +1,126 @@
+<meta charset='utf-8'><h1>Returns Advisor : comprendre chaque fenêtre de l'outil</h1>
+<p>Challenge 9, Human &amp; AI Collaboration, KEDGE. Prototype 0 du 19 novembre 2026.<br>Équipe : Ana, Kahina, Jade, Loubna, Raphaël, Benjamin.</p>
+<p>Outil en ligne : <a href="https://benjaminrossi13.github.io/Returns-advisor/">https://benjaminrossi13.github.io/Returns-advisor/</a></p>
+<p><b>Comment lire ce guide :</b> chaque capture d'écran a des parties entourées de couleur avec un numéro. Le texte sous la capture reprend le même numéro et la même couleur, puis explique la partie entourée. Quand une fenêtre a deux captures, les numéros continuent d'une capture à l'autre.</p>
+<h2>Le principe en une minute</h2>
+<p>Un client renvoie un article. Le responsable des retours le scanne, choisit son état (neuf, bon état, mauvais état) et la raison du retour. L'outil lit nos règles dans le Google Sheet et recommande une voie : remise en stock, reconditionnement, vente à un broker, don ou destruction. Il chiffre la décision (valeur récupérée, coût de manutention, résultat net) et affiche les alertes juridiques.</p>
+<p>Toutes les données viennent de notre Google Sheet HUMAN &amp; AI V2 et sont fictives. Les coûts et pourcentages sont justifiés par des sources publiques (onglet Paramètres). Le calcul se fait dans le navigateur, sans IA.</p>
+<h2>1. Accueil</h2>
+<p><b>À quoi sert cette fenêtre :</b> c'est la première page. Elle présente les fonctions de l'outil sous forme de tuiles, comme les applis d'un téléphone, sans chiffres.</p>
+<p><img src="https://benjaminrossi13.github.io/Returns-advisor/guide/01-accueil.png" width="624" alt="01-accueil.png"></p>
+<p><span style="color:#D32F2F;font-weight:bold">● 1. Titre et sous-titre</span> : le nom de l'outil et son contexte : e-commerçant fictif de prêt-à-porter, Challenge 9, Prototype 0.</p>
+<p><span style="color:#1976D2;font-weight:bold">● 2. Pastille « Données synthétiques »</span> : rappelle que toutes les données sont inventées par l'équipe. Aucune donnée de nos entreprises d'alternance n'est utilisée, comme le demande la consigne.</p>
+<p><span style="color:#2E7D32;font-weight:bold">● 3. Tuiles des fonctions</span> : 8 tuiles : Saisir un retour, Vue par lot, Dons et impôts, Règles et paramètres, Matrice des règles, Conformité, Cas limites, Méthode et données. Un clic ouvre la fenêtre.</p>
+<p><b>À dire à l'oral :</b> « L'outil est pensé pour un opérateur d'entrepôt : il choisit ce qu'il veut faire avant de voir les chiffres. »</p>
+<h2>2. Par article (Saisir un retour), article du catalogue</h2>
+<p><b>À quoi sert cette fenêtre :</b> traiter un retour, article par article. C'est la fenêtre principale de la démo. À gauche on saisit le retour, à droite l'outil donne sa recommandation.</p>
+<p><img src="https://benjaminrossi13.github.io/Returns-advisor/guide/02-article-saisie.png" width="624" alt="02-article-saisie.png"></p>
+<p><span style="color:#D32F2F;font-weight:bold">● 1. Barre d'onglets</span> : elle apparaît dès qu'on quitte l'accueil. Elle permet de passer d'une fenêtre à l'autre. « Accueil » ramène aux tuiles.</p>
+<p><span style="color:#1976D2;font-weight:bold">● 2. Mode de saisie</span> : « Article du catalogue » pour un article dont la référence existe, « Article inconnu » pour un article sans référence (voir la partie 3).</p>
+<p><span style="color:#2E7D32;font-weight:bold">● 3. Article</span> : liste des 100 références de l'onglet Stock, groupées par catégorie, avec leur prix de vente.</p>
+<p><span style="color:#EF6C00;font-weight:bold">● 4. État du retour</span> : Neuf, Bon état ou Mauvais état, selon les critères de l'onglet Echelle Article.</p>
+<p><span style="color:#7B1FA2;font-weight:bold">● 5. Quantité et raison du retour</span> : la raison sert à calculer le statut client (avoirisé ou non avoirisé). Elle ne change pas la voie de l'article.</p>
+<p><span style="color:#C2185B;font-weight:bold">● 6. Ajouter au lot</span> : ajoute ce retour à la Vue par lot pour voir son effet sur les totaux.</p>
+<p><img src="https://benjaminrossi13.github.io/Returns-advisor/guide/03-article-resultat.png" width="624" alt="03-article-resultat.png"></p>
+<p><span style="color:#00838F;font-weight:bold">● 7. Ligne d'information</span> : catégorie, type reconnu, état, quantité × prix, référence après tri (B pour bon état, C pour mauvais état) et statut client.</p>
+<p><span style="color:#5D4037;font-weight:bold">● 8. Voie recommandée et règle</span> : la voie choisie par l'outil, la règle utilisée (ici R8) et sa priorité.</p>
+<p><span style="color:#455A64;font-weight:bold">● 9. Justification</span> : le texte de la règle, repris de l'onglet Règles de Décision du Sheet.</p>
+<p><span style="color:#AFB42B;font-weight:bold">● 10. Chiffres</span> : valeur récupérée = quantité × prix × % récupéré. Coût de manutention = quantité × coût de la voie. Résultat net = valeur récupérée moins coût. Valeur de stock = 40 % du prix, puis 75 % en bon état et 30 % en mauvais état.</p>
+<p><span style="color:#D32F2F;font-weight:bold">● 11. Calcul</span> : la formule détaillée, pour vérifier le résultat à la main.</p>
+<p><span style="color:#1976D2;font-weight:bold">● 12. Alertes de conformité</span> : les alertes juridiques déclenchées par cette voie : niveau, explication, ce qu'il faut vérifier, texte officiel et date d'application.</p>
+<p><b>Exemple pour la démo :</b> pull à 90 € en bon état. Reconditionnement avec la règle R8 : 54 € récupérés, 4 € de coût, 50 € de résultat net. Alertes J07 (revente) et J08 (aptitude au reconditionnement).</p>
+<p><b>À dire à l'oral :</b> « On saisit l'article, l'outil donne la voie, la règle qui la justifie, les chiffres et les risques juridiques. »</p>
+<h2>3. Par article, article inconnu</h2>
+<p><b>À quoi sert cette fenêtre :</b> traiter un colis dont la référence n'existe pas dans l'outil de réception. Dans un vrai entrepôt, un article sans référence ne rentre pas en stock.</p>
+<p><img src="https://benjaminrossi13.github.io/Returns-advisor/guide/04-article-inconnu.png" width="624" alt="04-article-inconnu.png"></p>
+<p><span style="color:#D32F2F;font-weight:bold">● 1. Référence, description et quantité</span> : on saisit la référence lue sur l'étiquette (ou rien si elle est illisible), une description du colis et la quantité.</p>
+<p><span style="color:#1976D2;font-weight:bold">● 2. Arrivage refusé</span> : la référence n'existe pas, donc aucune voie n'est calculée. Si la référence tapée existe en fait, l'outil le dit et propose de l'ouvrir comme article du catalogue.</p>
+<p><span style="color:#2E7D32;font-weight:bold">● 3. Que faire</span> : la marche à suivre : quarantaine à la réception, signalement au service client, nouvelle saisie ou renvoi à l'expéditeur, ou création de la référence si l'article fait partie de notre assortiment.</p>
+<p><span style="color:#EF6C00;font-weight:bold">● 4. Bouton « Créer la référence dans l'outil »</span> : il ouvre le bloc de création (numéro 5).</p>
+<p><span style="color:#7B1FA2;font-weight:bold">● 5. Créer la référence</span> : on choisit la catégorie, le type et le prix. Le bouton crée la référence (la référence lue, ou NOUV-001 si elle est illisible), passe en mode catalogue et calcule la voie. Exemple : veste HAUT à 70 € en bon état, reconditionnement (R56). En mauvais état, vente à un broker (R60). La référence reste dans le navigateur, il faut aussi l'ajouter dans l'onglet Stock du Sheet.</p>
+<p><span style="color:#C2185B;font-weight:bold">● 6. Enregistrer le refus</span> : ajoute le colis à la liste des arrivages refusés, en bas de la Vue par lot, sans le compter dans les chiffres du lot.</p>
+<p><b>À dire à l'oral :</b> « Si le prof saisit un nouvel article, l'outil le refuse d'abord comme un vrai entrepôt. On crée la référence et la voie est calculée tout de suite. »</p>
+<h2>4. Vue par lot</h2>
+<p><b>À quoi sert cette fenêtre :</b> voir le résultat des règles sur tout le lot de 500 retours de l'onglet Retours Clients Inbound.</p>
+<p><img src="https://benjaminrossi13.github.io/Returns-advisor/guide/05-lot-haut.png" width="624" alt="05-lot-haut.png"></p>
+<p><span style="color:#D32F2F;font-weight:bold">● 1. Phrase d'introduction</span> : nombre de retours (500), d'articles (869), valeur client des articles retournés (46 405 €) et nombre de retours ajoutés dans la page.</p>
+<p><span style="color:#1976D2;font-weight:bold">● 2. Indicateurs</span> : articles retournés, valeur récupérée (23 499 €, soit 50,6 % de la valeur client), coût de manutention (2 274 €), résultat net (21 224 €) et articles en alerte critique (60).</p>
+<p><span style="color:#2E7D32;font-weight:bold">● 3. Part des articles par voie</span> : une barre avec une couleur par voie et la légende en pourcentage.</p>
+<p><span style="color:#EF6C00;font-weight:bold">● 4. Résultat par voie</span> : pour chaque voie : lignes, articles, part, valeur récupérée, coût et résultat net. Le don et la destruction ont un résultat négatif : ils ne rapportent rien mais coûtent la manutention.</p>
+<p><img src="https://benjaminrossi13.github.io/Returns-advisor/guide/06-lot-bas.png" width="624" alt="06-lot-bas.png"></p>
+<p><span style="color:#7B1FA2;font-weight:bold">● 5. Résultat par catégorie</span> : les mêmes chiffres par catégorie, avec le taux de récupération et les articles en alerte critique. Les 60 articles critiques sont des sous-vêtements usagés envoyés en destruction.</p>
+<p><span style="color:#C2185B;font-weight:bold">● 6. Filtres</span> : filtrer le détail par voie, catégorie, état ou niveau d'alerte.</p>
+<p><span style="color:#00838F;font-weight:bold">● 7. Détail des retours</span> : chaque ligne du lot avec sa référence après tri, son statut client, sa voie, sa règle, son résultat net et son alerte la plus haute. Cliquer sur une ligne l'ouvre dans Par article.</p>
+<p><span style="color:#5D4037;font-weight:bold">● 8. Afficher 50 de plus</span> : le tableau montre 50 lignes à la fois.</p>
+<p><span style="color:#455A64;font-weight:bold">● 9. Arrivages refusés</span> : les colis refusés enregistrés depuis Article inconnu (ici un exemple). Ils ne comptent pas dans le lot. Le bouton Retirer les enlève.</p>
+<p><b>À dire à l'oral :</b> « Sur 500 retours, les règles récupèrent 21 224 € net. Les 60 articles en alerte critique sont des sous-vêtements usagés dont la destruction doit être justifiée. »</p>
+<h2>5. Dons et impôts</h2>
+<p><b>À quoi sert cette fenêtre :</b> suivre les articles envoyés au don, par mois et par année, et calculer la réduction d'impôt de l'entreprise.</p>
+<p><img src="https://benjaminrossi13.github.io/Returns-advisor/guide/07-dons-haut.png" width="624" alt="07-dons-haut.png"></p>
+<p><span style="color:#D32F2F;font-weight:bold">● 1. Réglages</span> : l'année affichée (2025, 2026 ou toutes), le taux de réduction (60 %, taux légal) et le chiffre d'affaires HT (215 000 €, il sert au plafond). Le détail du choix de ces chiffres est plus bas.</p>
+<p><span style="color:#1976D2;font-weight:bold">● 2. Indicateurs</span> : en 2026 : 218 articles donnés, 1 685 € de valeur du don (au coût de revient du stock), 1 011 € de réduction d'impôt, 501 € de coût de manutention et 510 € de gain net.</p>
+<p><span style="color:#2E7D32;font-weight:bold">● 3. Par mois</span> : lignes, articles, barre de valeur, valeur du don, réduction et cumul de l'année. Novembre et décembre 2026 sont vides car le lot s'arrête fin octobre 2026.</p>
+<p><img src="https://benjaminrossi13.github.io/Returns-advisor/guide/08-dons-bas.png" width="624" alt="08-dons-bas.png"></p>
+<p><span style="color:#EF6C00;font-weight:bold">● 4. Par année</span> : 2025 (2 mois de données) et 2026 (10 mois) : réduction calculée, plafond, réduction utilisable et report sur 5 ans.</p>
+<p><span style="color:#7B1FA2;font-weight:bold">● 5. Par catégorie</span> : les catégories les plus données. Les sous-vêtements arrivent en tête car ils ne sont pas reconditionnés pour des raisons d'hygiène.</p>
+<p><span style="color:#C2185B;font-weight:bold">● 6. Règle fiscale appliquée</span> : article 238 bis du Code général des impôts, plafond, valorisation au coût de revient, reçu fiscal Cerfa n° 16216 et source.</p>
+<h3>Quels chiffres mettre dans les réglages</h3>
+<p><b>Taux de réduction : 60 %.</b> C'est le taux légal (article 238 bis du CGI). Il ne passe à 40 % qu'au-delà de 2 M€ de dons par an, et nos dons valent 1 685 €.</p>
+<p><b>Chiffre d'affaires HT : 215 000 €.</b> Estimé à partir de nos données :</p>
+<ul><li>Nos retours valent 46 405 € en prix de vente sur 12 mois (Vue par lot).</li><li>En mode, 18 % des articles achetés en ligne sont retournés (étude Shipup by ZigZag et Sapio Research, mai 2026, 2 000 consommateurs français).</li><li>Ventes : 46 405 € ÷ 18 % ≈ 258 000 € TTC, soit environ 215 000 € HT avec une TVA à 20 %.</li></ul>
+<p>Le plafond est le plus haut entre 20 000 € et 0,5 % du chiffre d'affaires (1 075 €), donc 20 000 €. Notre réduction de 1 011 € est très en dessous.</p>
+<p><b>À dire à l'oral :</b> « Le don n'est pas seulement une obligation de la loi AGEC : il rapporte une réduction d'impôt qu'on suit mois par mois. »</p>
+<h2>6. Règles et paramètres</h2>
+<p><b>À quoi sert cette fenêtre :</b> changer les hypothèses et voir le résultat changer partout en direct.</p>
+<p><img src="https://benjaminrossi13.github.io/Returns-advisor/guide/09-regles-haut.png" width="624" alt="09-regles-haut.png"></p>
+<p><span style="color:#D32F2F;font-weight:bold">● 1. Revenir aux données chargées</span> : annule toutes les modifications faites dans la page et revient aux valeurs du Sheet.</p>
+<p><span style="color:#1976D2;font-weight:bold">● 2. Paramètres économiques</span> : coût par article et % du prix récupéré, par catégorie et par voie, modifiables. Valeurs sourcées (onglet Paramètres) : remise en stock 2,75 € et 100 %, reconditionnement 4 € et 60 %, broker 1,75 € et 15 %, don et destruction 2,30 € et 0 %.</p>
+<p><span style="color:#2E7D32;font-weight:bold">● 3. Contexte réglementaire</span> : l'entreprise est-elle une grande entreprise au sens du règlement ESPR ? Non par défaut : avec 215 000 € de chiffre d'affaires, notre e-commerçant est une micro-entreprise, exemptée. Sur Oui, les alertes ESPR (J02, J03, J04, J11, J12, J13) apparaissent. La loi AGEC s'applique dans les deux cas.</p>
+<p><span style="color:#EF6C00;font-weight:bold">● 4. Ajouter une règle</span> : priorité, catégorie, type, état, valeur client minimum, voie et justification.</p>
+<p><img src="https://benjaminrossi13.github.io/Returns-advisor/guide/10-regles-tableau.png" width="624" alt="10-regles-tableau.png"></p>
+<p><span style="color:#7B1FA2;font-weight:bold">● 5. Titre et compteur</span> : nombre de règles, de règles modifiées ou ajoutées et de règles supprimées.</p>
+<p><span style="color:#C2185B;font-weight:bold">● 6. Filtres</span> : afficher les règles d'une catégorie ou d'un état.</p>
+<p><span style="color:#00838F;font-weight:bold">● 7. Priorité</span> : ordre de lecture : l'outil prend la première règle qui correspond, en commençant par la plus petite priorité.</p>
+<p><span style="color:#5D4037;font-weight:bold">● 8. Valeur client minimum</span> : seuil de prix de vente. Vide = pas de condition de prix. Seules les règles par défaut R56 (10 €) et R60 (40 €) l'utilisent, pour ne pas dépenser plus en traitement que ce que l'article rapporte.</p>
+<p><span style="color:#455A64;font-weight:bold">● 9. Voie</span> : liste pour changer la voie de la règle. Le changement se répercute partout.</p>
+<p><span style="color:#AFB42B;font-weight:bold">● 10. Supprimer</span> : enlève la règle. Les règles par défaut (priorités 900 et plus) prennent alors le relais.</p>
+<p>Les lignes modifiées ou ajoutées sont surlignées. Les modifications restent dans le navigateur de la personne.</p>
+<p><b>À dire à l'oral :</b> « Les règles ne sont pas cachées dans le code : le responsable les change et voit l'effet tout de suite. »</p>
+<h2>7. Matrice des règles</h2>
+<p><b>À quoi sert cette fenêtre :</b> voir en un tableau la voie retenue pour chaque type de produit et chaque état. C'est la table de vérité de l'outil.</p>
+<p><img src="https://benjaminrossi13.github.io/Returns-advisor/guide/11-matrice.png" width="624" alt="11-matrice.png"></p>
+<p><span style="color:#D32F2F;font-weight:bold">● 1. Colonnes d'état</span> : Neuf, Bon état et Mauvais état.</p>
+<p><span style="color:#1976D2;font-weight:bold">● 2. Cellule</span> : la voie retenue pour ce type à son prix catalogue, et l'identifiant de la règle qui la donne.</p>
+<p><span style="color:#2E7D32;font-weight:bold">● 3. Point d'exclamation rouge</span> : alerte critique : destruction de sous-vêtements usagés.</p>
+<p><span style="color:#EF6C00;font-weight:bold">● 4. Lignes AUTRE</span> : les règles par défaut pour un type non reconnu, au-dessus de 40 € et en dessous de 10 €.</p>
+<p><b>À dire à l'oral :</b> « On vérifie d'un coup d'œil qu'aucune combinaison n'est oubliée et que la destruction n'est jamais choisie par défaut. »</p>
+<h2>8. Conformité</h2>
+<p><b>À quoi sert cette fenêtre :</b> lister les 15 alertes juridiques de l'onglet Juridique (Loubna) et dire quand elles se déclenchent.</p>
+<p><img src="https://benjaminrossi13.github.io/Returns-advisor/guide/12-conformite.png" width="624" alt="12-conformite.png"></p>
+<p><span style="color:#D32F2F;font-weight:bold">● 1. Niveau</span> : critique, élevé ou modéré. C'est une priorité interne, pas une sanction légale.</p>
+<p><span style="color:#1976D2;font-weight:bold">● 2. Se déclenche si</span> : la ou les voies concernées, et si besoin la catégorie, le statut client ou la mention « grande entreprise » pour l'ESPR.</p>
+<p><span style="color:#2E7D32;font-weight:bold">● 3. Message affiché</span> : le texte que l'opérateur voit dans Par article.</p>
+<p><span style="color:#EF6C00;font-weight:bold">● 4. Source</span> : le texte officiel, cliquable (Légifrance ou EUR-Lex). Les liens J07, J08 et J15 ont été corrigés le 17/11/2026.</p>
+<p><span style="color:#7B1FA2;font-weight:bold">● 5. Date d'application</span> : les dates mises à jour par Loubna le 17/11/2026.</p>
+<p><span style="color:#C2185B;font-weight:bold">● 6. Retours concernés</span> : le nombre de lignes du lot qui déclenchent l'alerte. « masquée » veut dire que l'alerte ESPR est désactivée, car notre entreprise est une micro-entreprise.</p>
+<p><b>À dire à l'oral :</b> « L'outil signale le risque juridique mais ne décide pas à la place de l'humain. Il applique l'ESPR selon la taille de l'entreprise. »</p>
+<h2>9. Cas limites</h2>
+<p><b>À quoi sert cette fenêtre :</b> prouver que l'outil donne les bonnes réponses. Les 15 cas de l'onglet Cas limites (Ana) ont été écrits avec la réponse attendue avant de construire l'outil.</p>
+<p><img src="https://benjaminrossi13.github.io/Returns-advisor/guide/13-cas-limites.png" width="624" alt="13-cas-limites.png"></p>
+<p><span style="color:#D32F2F;font-weight:bold">● 1. Phrase de synthèse</span> : le nombre de cas qui donnent la voie attendue : 15 sur 15.</p>
+<p><span style="color:#1976D2;font-weight:bold">● 2. Voie attendue</span> : la réponse écrite par l'équipe avant l'outil.</p>
+<p><span style="color:#2E7D32;font-weight:bold">● 3. Voie donnée par l'outil</span> : la voie recalculée en direct avec les règles actuelles.</p>
+<p><span style="color:#EF6C00;font-weight:bold">● 4. Règle</span> : la règle utilisée par l'outil.</p>
+<p><span style="color:#7B1FA2;font-weight:bold">● 5. Concordance</span> : « Conforme » ou « Écart ». Pour la démo : dans Règles et paramètres, passer R54 de destruction à don, un écart apparaît ici.</p>
+<p><b>À dire à l'oral :</b> « On a écrit ce qu'on attendait avant de construire l'outil. Si quelqu'un change une règle, on voit tout de suite ce qui casse. »</p>
+<h2>10. Méthode et données</h2>
+<p><b>À quoi sert cette fenêtre :</b> dire d'où viennent les données et comment l'outil calcule.</p>
+<p><img src="https://benjaminrossi13.github.io/Returns-advisor/guide/14-methode.png" width="624" alt="14-methode.png"></p>
+<p><span style="color:#D32F2F;font-weight:bold">● 1. Données utilisées</span> : la source (copie du Google Sheet et onglets mis à jour) et le nombre de références, retours, règles, alertes et cas limites chargés.</p>
+<p><span style="color:#1976D2;font-weight:bold">● 2. Recharger depuis le Google Sheet</span> : dans le Sheet : Fichier, Télécharger, Microsoft Excel (.xlsx), puis choisir le fichier ici. L'outil reconnaît les onglets même renommés (par exemple « Stock E7 »).</p>
+<p><span style="color:#2E7D32;font-weight:bold">● 3. Méthode</span> : données, valeurs, logique de décision, dons, calculs, conformité, statut client et limites.</p>
+<p><b>À dire à l'oral :</b> « Si on modifie le Google Sheet, il suffit de recharger le fichier pour que l'outil suive. »</p>
+<h2>Qui présente quoi (proposition)</h2>
+<ul><li>Benjamin : Accueil, Par article, Article inconnu, démo en direct.</li><li>Jade : Vue par lot (données et lot de retours).</li><li>Kahina : Règles et paramètres (partie paramètres), Dons et impôts.</li><li>Ana : Règles et paramètres (partie règles), Matrice, Cas limites.</li><li>Loubna : Conformité, ESPR et règle fiscale des dons.</li><li>Raphaël : Méthode et données, preuves et calculs à la main.</li></ul>
+<h2>Questions que le prof peut poser</h2>
+<ul><li><b>Que se passe-t-il si je saisis un nouvel article ?</b> L'outil le refuse d'abord à la réception, comme un vrai entrepôt. On crée la référence (catégorie, type, prix) et la voie est calculée tout de suite.</li><li><b>Pourquoi le don est valorisé au coût de revient ?</b> C'est la règle pour un don en nature : l'entreprise ne peut pas déduire un prix de vente qu'elle n'a jamais encaissé.</li><li><b>D'où viennent les coûts et pourcentages ?</b> De sources publiques listées dans l'onglet Paramètres du Sheet : un benchmark des coûts logistiques en France (2026) et des études sur la revente des retours (2026). Seul le coût de nettoyage du reconditionnement reste une hypothèse.</li><li><b>Pourquoi les alertes ESPR sont masquées ?</b> L'interdiction de destruction de l'ESPR vise les grandes entreprises (et les moyennes à partir de 2030). Avec 215 000 € de chiffre d'affaires, notre e-commerçant est une micro-entreprise. Un clic dans Règles et paramètres les réactive.</li><li><b>Quel est le rôle de l'IA ?</b> Elle a construit l'outil à partir de nos règles. Les règles, les choix éthiques et la lecture du droit sont les nôtres, et on les a vérifiés (15 cas limites, 8 retours recalculés à la main).</li></ul>
