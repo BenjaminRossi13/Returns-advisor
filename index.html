@@ -127,6 +127,28 @@ input.inl{width:84px;text-align:right;padding:4px 6px}
 .srcbox{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
 .chip{display:inline-block;font-size:11px;font-weight:600;padding:2px 7px;border-radius:3px;background:var(--surface-2);color:var(--muted)}
 .chip.ok{background:var(--ok-soft);color:var(--ok)} .chip.warn{background:var(--high-soft);color:var(--high)}
+body[data-view="accueil"] nav.tabs{display:none}
+.home-hello{margin:6px 0 22px}
+.home-hello h2{font-size:24px;margin:0 0 4px}
+.apps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;max-width:960px}
+@media (max-width:720px){.apps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.app{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:20px 12px 18px;border-radius:16px;background:var(--surface);border:1px solid var(--line);color:var(--fg);text-decoration:none;transition:transform .12s ease,box-shadow .12s ease}
+.app:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.08)}
+.app:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.app .ico{width:64px;height:64px;border-radius:16px;display:grid;place-items:center;box-shadow:inset 0 -2px 0 rgba(0,0,0,.12)}
+.app .ico svg{width:30px;height:30px;stroke:#fff;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.app .nm{font-weight:600;font-size:14.5px;line-height:1.25}
+.app .ds{font-size:12px;color:var(--muted);line-height:1.35}
+@media (max-width:420px){.apps{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.app{padding:16px 8px}.app .ico{width:56px;height:56px}}
+nav.tabs a.home{display:inline-flex;align-items:center;gap:6px}
+nav.tabs a.home svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.refuse{border:1px solid var(--crit);background:var(--crit-soft);color:var(--fg);border-radius:8px;padding:14px 16px}
+.refuse .t{font-family:var(--display);font-size:20px;font-weight:600;color:var(--crit);margin-bottom:4px}
+.steps{margin:8px 0 0;padding-left:20px}
+.steps li{margin:3px 0}
+.yearbar{display:flex;flex-wrap:wrap;gap:12px;align-items:end}
+.yearbar>div{min-width:160px}
+.cap.ok{color:var(--ok);font-weight:600} .cap.over{color:var(--high);font-weight:600}
 </style>
 <div class="wrap">
   <header class="top">
@@ -138,8 +160,10 @@ input.inl{width:84px;text-align:right;padding:4px 6px}
   </header>
 
   <nav class="tabs" aria-label="Sections">
+    <a href="#accueil" data-view="accueil" class="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg>Accueil</a>
     <a href="#article" data-view="article">Par article</a>
     <a href="#lot" data-view="lot">Vue par lot</a>
+    <a href="#dons" data-view="dons">Dons et impôts</a>
     <a href="#regles" data-view="regles">Règles et paramètres</a>
     <a href="#matrice" data-view="matrice">Matrice des règles</a>
     <a href="#conformite" data-view="conformite">Conformité</a>
@@ -147,24 +171,41 @@ input.inl{width:84px;text-align:right;padding:4px 6px}
     <a href="#methode" data-view="methode">Méthode et données</a>
   </nav>
 
-  <section id="v-article" data-v="article">
+  <section id="v-accueil" data-v="accueil">
+    <div class="home-hello">
+      <h2>Bienvenue</h2>
+      <p class="lead" style="margin:0">Choisissez ce que vous voulez faire.</p>
+    </div>
+    <div class="apps">
+      <a class="app" href="#article"><span class="ico" style="background:#1f5e57"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7V5a2 2 0 0 1 2-2h2"/><path d="M17 3h2a2 2 0 0 1 2 2v2"/><path d="M21 17v2a2 2 0 0 1-2 2h-2"/><path d="M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 8v8M10 8v8M13.5 8v8M17 8v8"/></svg></span><span class="nm">Saisir un retour</span><span class="ds">Scanner un article et obtenir sa voie</span></a>
+      <a class="app" href="#lot"><span class="ico" style="background:#5c8f3a"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg></span><span class="nm">Vue par lot</span><span class="ds">Le lot de retours et son bilan</span></a>
+      <a class="app" href="#dons"><span class="ico" style="background:#3d6fb0"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-9-8.6A4.9 4.9 0 0 1 12 6.5a4.9 4.9 0 0 1 9 4.9C19 15.6 12 20 12 20z"/></svg></span><span class="nm">Dons et impôts</span><span class="ds">Dons du mois et de l'année, réduction d'impôt</span></a>
+      <a class="app" href="#regles"><span class="ico" style="background:#c08a1e"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h9M17 6h3M15 4v4"/><path d="M4 12h3M11 12h9M9 10v4"/><path d="M4 18h11M19 18h1M17 16v4"/></svg></span><span class="nm">Règles et paramètres</span><span class="ds">Modifier les règles, coûts et taux</span></a>
+      <a class="app" href="#matrice"><span class="ico" style="background:#6b5ca5"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span><span class="nm">Matrice des règles</span><span class="ds">Toutes les décisions en un tableau</span></a>
+      <a class="app" href="#conformite"><span class="ico" style="background:#b3261e"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 4.8-3.4 8-8 9-4.6-1-8-4.2-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg></span><span class="nm">Conformité</span><span class="ds">Alertes juridiques AGEC et ESPR</span></a>
+      <a class="app" href="#cas-limites"><span class="ico" style="background:#a15c00"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l9.5 16.5h-19L12 3.5z"/><path d="M12 10v4.5"/><path d="M12 17.3v.2"/></svg></span><span class="nm">Cas limites</span><span class="ds">Vérifier les situations difficiles</span></a>
+      <a class="app" href="#methode"><span class="ico" style="background:#4f5b57"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 0 6.5 21H19v-3"/><path d="M9 7h6M9 10.5h6"/></svg></span><span class="nm">Méthode et données</span><span class="ds">Sources, calculs et import du Sheet</span></a>
+    </div>
+  </section>
+
+  <section id="v-article" data-v="article" hidden>
     <div class="grid2">
       <form class="panel" id="f-article" autocomplete="off">
         <h2>Saisir un retour</h2>
         <div class="seg" role="group" aria-label="Mode de saisie">
           <button type="button" id="m-cat" aria-pressed="true">Article du catalogue</button>
-          <button type="button" id="m-free" aria-pressed="false">Nouvel article</button>
+          <button type="button" id="m-free" aria-pressed="false">Article inconnu</button>
         </div>
         <div id="box-cat">
           <label for="a-ref">Article</label>
           <select id="a-ref"></select>
         </div>
         <div id="box-free" hidden>
-          <div><label for="a-cat">Catégorie</label><select id="a-cat"></select></div>
-          <div style="margin-top:10px"><label for="a-type">Type de produit</label><select id="a-type"></select></div>
-          <div style="margin-top:10px"><label for="a-des">Désignation</label><input type="text" id="a-des" placeholder="Ex. Veste en jean (Taille M)"></div>
-          <div style="margin-top:10px"><label for="a-price">Prix de vente unitaire (€)</label><input type="number" id="a-price" min="0" step="0.01" value="60"></div>
+          <div><label for="a-uref">Référence lue sur l'étiquette</label><input type="text" id="a-uref" placeholder="Ex. 150999 ou illisible"></div>
+          <div style="margin-top:10px"><label for="a-des">Description du colis</label><input type="text" id="a-des" placeholder="Ex. Veste en jean sans étiquette"></div>
+          <div style="margin-top:10px"><label for="a-uqty">Quantité</label><input type="number" id="a-uqty" min="1" step="1" value="1"></div>
         </div>
+        <div id="box-eval">
         <div>
           <label>État du retour</label>
           <div class="seg" role="group" aria-label="État" id="a-etat">
@@ -177,8 +218,9 @@ input.inl{width:84px;text-align:right;padding:4px 6px}
           <div><label for="a-qty">Quantité</label><input type="number" id="a-qty" min="1" step="1" value="1"></div>
           <div><label for="a-raison">Raison de retour</label><select id="a-raison"></select></div>
         </div>
-        <div><button type="submit" class="btn">Ajouter au lot</button></div>
-        <p class="note">Le retour ajouté est intégré à la vue par lot. Pour un produit absent du catalogue, choisissez « Nouvel article » puis le type « AUTRE ».</p>
+        </div>
+        <div><button type="submit" class="btn" id="a-submit">Ajouter au lot</button></div>
+        <p class="note" id="a-note">Le retour ajouté est intégré à la vue par lot. Un article dont la référence n'existe pas dans l'outil de réception est refusé : choisissez « Article inconnu ».</p>
       </form>
       <div class="panel rec" id="a-result" aria-live="polite"></div>
     </div>
@@ -205,6 +247,35 @@ input.inl{width:84px;text-align:right;padding:4px 6px}
       </div>
       <div class="tablewrap"><table id="t-retours"></table></div>
       <div style="margin-top:10px;display:flex;gap:10px;align-items:center"><button class="btn ghost small" id="more" type="button">Afficher 50 de plus</button><span class="muted" id="count"></span></div>
+    </div>
+    <div class="section" id="ref-box" hidden>
+      <h3>Arrivages refusés</h3>
+      <p class="note">Colis refusés à la réception car leur référence n'existe pas dans l'outil. Ils ne sont pas comptés dans le lot.</p>
+      <div class="tablewrap"><table id="t-refused"></table></div>
+    </div>
+  </section>
+
+  <section id="v-dons" data-v="dons" hidden>
+    <h2>Dons et réduction d'impôt</h2>
+    <p class="lead">Articles orientés vers le don par les règles, regroupés par mois et par année, avec la réduction d'impôt mécénat correspondante. Le don est valorisé à sa valeur en stock (coût de revient), pas à son prix de vente.</p>
+    <div class="panel yearbar">
+      <div><label for="dn-year">Année</label><select id="dn-year"></select></div>
+      <div><label for="dn-taux">Taux de réduction (%)</label><input type="number" id="dn-taux" min="0" max="100" step="1" value="60"></div>
+      <div><label for="dn-ca">Chiffre d'affaires HT annuel (€)</label><input type="number" id="dn-ca" min="0" step="100000" value="10000000"></div>
+    </div>
+    <div class="kpis section" id="dn-kpis"></div>
+    <div class="section"><h3 id="dn-mtitle">Par mois</h3><div class="tablewrap"><table id="t-dn-mois"></table></div></div>
+    <div class="section"><h3>Par année</h3><div class="tablewrap"><table id="t-dn-an"></table></div></div>
+    <div class="section"><h3 id="dn-ctitle">Par catégorie</h3><div class="tablewrap"><table id="t-dn-cat"></table></div></div>
+    <div class="panel section">
+      <h3>Règle fiscale appliquée</h3>
+      <ul class="steps">
+        <li>Réduction d'impôt de 60 % du montant des dons (article 238 bis du Code général des impôts), 40 % pour la part des dons qui dépasse 2 M€ dans l'année, sauf pour les organismes d'aide aux personnes en difficulté qui restent à 60 %.</li>
+        <li>Plafond : 20 000 € de dons par an ou 0,5 % du chiffre d'affaires HT si ce montant est plus élevé. La part au dessus du plafond se reporte sur les cinq exercices suivants.</li>
+        <li>Don en nature valorisé au coût de revient du stock : ici la valeur de stock de l'article dans son état (40 % du prix de vente, puis 75 % en bon état et 30 % en mauvais état).</li>
+        <li>L'association bénéficiaire doit être éligible et remettre un reçu fiscal (formulaire Cerfa n° 16216). Exercice comptable supposé égal à l'année civile ; le chiffre d'affaires est une hypothèse à fixer.</li>
+      </ul>
+      <p class="note">Source : ministère de la Culture, <a href="https://www.culture.gouv.fr/Thematiques/Mecenat/Entreprises/Le-regime-fiscal-general" target="_blank" rel="noopener">Le régime fiscal général du mécénat d'entreprise</a>, consulté le 17/11/2026.</p>
     </div>
   </section>
 
@@ -281,7 +352,8 @@ input.inl{width:84px;text-align:right;padding:4px 6px}
       <dl>
         <dt>Données</dt><dd>Catalogue de 100 références et lot de 500 retours entièrement synthétiques, issus des onglets STOCK et RETOURS CLIENTS INBOUND. Aucune donnée d'entreprise.</dd>
         <dt>Valeurs</dt><dd>Valeur client = prix de vente du catalogue. Valeur de stock = 40 % du prix de vente, puis 75 % et 30 % de cette valeur pour les états bon et mauvais ; chaque état a sa propre référence (ex. 128419, 128419B, 128419C).</dd>
-        <dt>Logique de décision</dt><dd>La première règle qui correspond à la catégorie, au type de produit (déduit de la désignation), à l'état et, s'il est fixé, au seuil de valeur client donne la voie, par priorité croissante. Les règles par défaut couvrent tout article imprévu sans jamais choisir la destruction.</dd>
+        <dt>Logique de décision</dt><dd>La première règle qui correspond à la catégorie, au type de produit (déduit de la désignation), à l'état et, s'il est fixé, au seuil de valeur client donne la voie, par priorité croissante. Les règles par défaut couvrent tout article du catalogue dont le type n'est pas reconnu, sans jamais choisir la destruction. Un article dont la référence n'existe pas dans l'outil est refusé à la réception.</dd>
+        <dt>Dons</dt><dd>Les articles orientés vers le don sont regroupés par mois et par année selon la date du retour. Réduction d'impôt = taux (60 %) × valeur de stock donnée, dans la limite de 20 000 € ou 0,5 % du chiffre d'affaires HT.</dd>
         <dt>Calculs</dt><dd>Coût = quantité × coût de manutention de la voie. Valeur récupérée = quantité × prix de vente × pourcentage récupéré. Résultat net = valeur récupérée − coût.</dd>
         <dt>Conformité</dt><dd>Alertes de l'onglet Juridique : loi AGEC, règlement européen ESPR et règlement délégué 2026/296, sécurité des produits, Code de la consommation, Code général des impôts. Les alertes ESPR ne s'affichent que pour une grande entreprise.</dd>
         <dt>Statut client</dt><dd>Avoirisé ou non avoirisé : affiché à titre d'information, il ne décide pas de la voie physique de l'article (alerte J14).</dd>
@@ -339,15 +411,15 @@ function parseSheets(S){
 }
 
 /* ---------- state ---------- */
-const KEY="rda-proto0-v2";
+const KEY="rda-proto0-v3";
 let SHEET=SHEET0, SRC="Google Sheet « HUMAN & AI V2 », copie du 15/11/2026";
 try{ const s=JSON.parse(localStorage.getItem(KEY+"-sheet")||"null"); if(s&&s.sheet){ SHEET=s.sheet; SRC=s.src; } }catch(e){}
 let D, ORIG, S, TYPES, stock, baseRet;
 function load(){
   D=parseSheets(SHEET);
   ORIG={rules:JSON.parse(JSON.stringify(D.rules)),params:JSON.parse(JSON.stringify(D.params))};
-  S={rules:JSON.parse(JSON.stringify(D.rules)),params:JSON.parse(JSON.stringify(D.params)),espr:"oui",added:[],sig:SRC};
-  try{ const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s&&s.sig===SRC&&s.rules) S=s; }catch(e){}
+  S={rules:JSON.parse(JSON.stringify(D.rules)),params:JSON.parse(JSON.stringify(D.params)),espr:"oui",added:[],refused:[],taux:60,ca:10000000,sig:SRC};
+  try{ const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s&&s.sig===SRC&&s.rules) S=Object.assign({refused:[],taux:60,ca:10000000},s); }catch(e){}
   TYPES=[...new Set(D.rules.map(r=>r.type).filter(t=>t!=="TOUTES"))].sort((a,b)=>b.length-a.length);
   stock=D.stock.map(s=>Object.assign({},s,{type:typeOf(s.des)}));
   baseRet=D.ret.map(r=>Object.assign({},r,{type:typeOf(r.des)}));
@@ -375,9 +447,8 @@ let mode="cat", etat="Bon état";
 function initForms(){
   $("a-ref").innerHTML=CATS().map(c=>`<optgroup label="${esc(c)}">`+stock.filter(s=>s.cat===c).map(s=>`<option value="${esc(s.ref)}">${esc(s.des)} · ${s.price} €</option>`).join("")+"</optgroup>").join("");
   if(stock.find(s=>s.ref==="130032")) $("a-ref").value="130032";
-  $("a-cat").innerHTML=CATS().map(c=>`<option>${esc(c)}</option>`).join("");
   $("a-raison").innerHTML=RAISONS.map(r=>`<option>${r}</option>`).join("");
-  fillTypes();
+  $("dn-taux").value=S.taux; $("dn-ca").value=S.ca;
   $("nr-cat").innerHTML=["TOUTES"].concat(CATS()).map(c=>`<option>${esc(c)}</option>`).join("");
   fillNrTypes();
   $("nr-etat").innerHTML=ETATS.concat(["TOUS"]).map(c=>`<option>${c}</option>`).join("");
@@ -391,18 +462,38 @@ function initForms(){
   $("src-info").innerHTML=`Source : ${esc(SRC)}. ${stock.length} références, ${baseRet.length} retours, ${S.rules.length} règles, ${D.alerts.length} alertes, ${D.cases.length} cas limites.`;
 }
 function typesFor(c){ return [...new Set(D.rules.filter(r=>(r.cat===c||r.cat==="TOUTES")&&r.type!=="TOUTES").map(r=>r.type))]; }
-function fillTypes(){ const c=$("a-cat").value; $("a-type").innerHTML=typesFor(c).concat(["AUTRE"]).map(t=>`<option>${esc(t)}</option>`).join(""); }
 function fillNrTypes(){ const c=$("nr-cat").value; const ts=c==="TOUTES"?TYPES.slice().sort():typesFor(c); $("nr-type").innerHTML=["TOUTES"].concat(ts).map(t=>`<option>${esc(t)}</option>`).join(""); }
 function currentItem(){
   const qty=Math.max(1,parseInt($("a-qty").value)||1);
   if(mode==="cat"){ const s=stock.find(x=>x.ref===$("a-ref").value)||stock[0]; return {cat:s.cat,ref:s.ref,des:s.des,type:s.type,price:s.price,qty,etat,raison:$("a-raison").value,statut:statutOf(etat,$("a-raison").value)}; }
-  const price=Math.max(0,parseFloat($("a-price").value)||0);
-  return {cat:$("a-cat").value,ref:"",des:$("a-des").value.trim()||("Nouvel article "+$("a-type").value.toLowerCase()),type:$("a-type").value,price,qty,etat,raison:$("a-raison").value,statut:statutOf(etat,$("a-raison").value)};
+  return {unknown:true,ref:$("a-uref").value.trim(),des:$("a-des").value.trim(),qty:Math.max(1,parseInt($("a-uqty").value)||1)};
 }
+const today=()=>new Date().toLocaleDateString("fr-FR");
 function alertHTML(a){ return `<div class="alert ${a.lvl}"><div class="h"><span class="lvl ${a.lvl}">${esc(a.lvl)}</span><span>${a.id} · ${esc(a.msg)}</span></div><div>${esc(a.why)}</div><div class="src">À vérifier : ${esc(a.check)}<br>Source : <a href="${esc(a.lien)}" target="_blank" rel="noopener">${esc(a.loi)}</a> · ${esc(a.date)}${a.cons?` · consulté : ${esc(a.cons)}`:""}</div></div>`; }
+function renderUnknown(it){
+  const known=it.ref&&stock.find(s=>norm(s.ref)===norm(it.ref.replace(/[BC]$/i,"")));
+  if(known){
+    $("a-result").innerHTML=`<div class="route-head"><span class="route-chip">${dot("Remise en stock")}Référence connue</span></div>
+     <div>La référence <span class="mono">${esc(it.ref)}</span> existe dans l'outil : ${esc(known.des)}. Elle doit être saisie comme article du catalogue.</div>
+     <div><button type="button" class="btn ghost" id="a-goknown" data-ref="${esc(known.ref)}">Ouvrir comme article du catalogue</button></div>`;
+    return;
+  }
+  $("a-result").innerHTML=`<div class="refuse">
+     <div class="t">Arrivage refusé</div>
+     <div>${it.ref?`La référence <span class="mono">${esc(it.ref)}</span> n'existe pas`:"Aucune référence lisible"} dans l'outil de réception de l'entrepôt. Sans référence, l'article ne peut pas être tracé, valorisé ni orienté : aucune voie de disposition n'est calculée.</div>
+   </div>
+   <div><h3>Que faire</h3>
+   <ol class="steps">
+     <li>Ne pas faire entrer le colis en stock ; le mettre en zone de quarantaine réception.</li>
+     <li>Signaler le refus au service client avec le bon de retour, pour identifier la commande d'origine.</li>
+     <li>Si la commande est retrouvée, ressaisir le retour avec la bonne référence. Sinon, renvoyer le colis à l'expéditeur.</li>
+   </ol></div>
+   <div class="muted">${esc(it.des||"Colis sans description")} · ${it.qty} article${it.qty>1?"s":""}</div>`;
+}
 function renderArticle(){
-  const it=currentItem(), d=decide(it), p=d.p;
-  const tri = it.ref ? it.ref+suffix(it.etat) : "nouvelle référence à créer";
+  const it=currentItem(); if(it.unknown) return renderUnknown(it);
+  const d=decide(it), p=d.p;
+  const tri = it.ref+suffix(it.etat);
   $("a-result").innerHTML=`
    <div class="muted">${esc(it.cat)} · ${esc(it.type)} · ${esc(it.etat)} · ${it.qty} × ${fmt(it.price)} · référence après tri : <span class="mono">${esc(tri)}</span><br>Statut client : <strong>${esc(it.statut)}</strong> <span class="note">(selon l'état et la raison du retour, onglet Echelle Article)</span></div>
    <div class="route-head"><span class="route-chip">${dot(d.voie)}${esc(d.voie)}</span>${d.rule?`<span class="ruleid">Règle ${esc(d.rule.id)} · priorité ${d.rule.prio}</span>`:""}</div>
@@ -447,10 +538,44 @@ function renderTable(){
 }
 function openInArticle(it){
   if(it.ref && stock.find(s=>s.ref===it.ref)){ $("m-cat").click(); $("a-ref").value=it.ref; }
-  else { $("m-free").click(); $("a-cat").value=it.cat; fillTypes(); $("a-type").value=it.type; $("a-des").value=it.des; $("a-price").value=it.price; }
+  else { $("m-free").click(); $("a-uref").value=it.ref||""; $("a-des").value=it.des||""; $("a-uqty").value=it.qty; }
   $("a-qty").value=it.qty; if(it.raison) $("a-raison").value=it.raison;
   etat=it.etat; $("a-etat").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.e===etat?"true":"false"));
   location.hash="article"; renderArticle(); window.scrollTo(0,0);
+}
+
+function renderRefused(){
+  const R=S.refused||[]; $("ref-box").hidden=!R.length;
+  $("t-refused").innerHTML=`<thead><tr><th>N°</th><th>Date</th><th>Référence lue</th><th>Description</th><th class="num">Qté</th><th>Statut</th><th></th></tr></thead><tbody>`+R.map((r,i)=>`<tr><td class="mono">${esc(r.no)}</td><td>${esc(r.date)}</td><td class="mono">${esc(r.ref||"illisible")}</td><td>${esc(r.des||"—")}</td><td class="num">${r.qty}</td><td><span class="flag CRITIQUE">Arrivage refusé</span></td><td><button class="del" type="button" data-rdel="${i}">Retirer</button></td></tr>`).join("")+"</tbody>";
+}
+
+/* ---------- dons ---------- */
+const MOIS=["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
+const coefEtat=e=>e==="Neuf"?1:e==="Bon état"?0.75:0.3;
+function ymOf(s){ const m=String(s||"").match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/); return m?{y:+m[3],m:+m[2]}:null; }
+function donsList(){ return computed.filter(x=>x.d.voie==="Don").map(({it,d})=>{const ym=ymOf(it.date); return {it,d,y:ym?ym.y:null,m:ym?ym.m:null,base:it.qty*it.price*0.4*coefEtat(it.etat)};}); }
+function capOf(){ return Math.max(20000,0.005*(S.ca||0)); }
+function reducOf(base){ const t=(S.taux??60)/100; return base<=2e6?base*t:2e6*t+(base-2e6)*Math.min(t,0.4); }
+function renderDons(){
+  const L=donsList(); const years=[...new Set(L.map(x=>x.y).filter(Boolean))].sort();
+  const sel=$("dn-year"), cur=sel.value; sel.innerHTML=years.map(y=>`<option value="${y}">${y}</option>`).join("")+`<option value="">Toutes les années</option>`;
+  sel.value=cur!==""&&years.includes(+cur)?cur:(cur===""&&sel.dataset.init?"":String(years[years.length-1]||"")); sel.dataset.init=1;
+  const Y=sel.value?+sel.value:null; const F=L.filter(x=>Y==null||x.y===Y);
+  const arts=F.reduce((a,x)=>a+x.it.qty,0), base=F.reduce((a,x)=>a+x.base,0), cout=F.reduce((a,x)=>a+x.d.cout,0), client=F.reduce((a,x)=>a+x.it.qty*x.it.price,0);
+  const red=reducOf(base), cap=capOf(), use=Math.min(red,cap);
+  $("dn-kpis").innerHTML=[["Articles donnés",arts.toLocaleString("fr-FR"),`${F.length} lignes de retour${Y?" en "+Y:""}`],["Valeur du don",fmt0(base),"au coût de revient du stock"],["Réduction d'impôt",fmt0(Y?use:red),Y?(red>cap?`plafonnée, ${fmt0(red-cap)} reportés`:`${pct((S.taux??60)/100)} de la valeur donnée`):"somme des années"],["Coût de manutention",fmt0(cout),"tri, emballage, transport"],["Gain net du don",fmt0((Y?use:red)-cout),"réduction − manutention"]].map(([k,v,s])=>`<div class="kpi"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`).join("");
+  // monthly
+  const months=Y?MOIS.map((n,i)=>({k:`${n}`,y:Y,m:i+1})):[...new Set(L.filter(x=>x.y).map(x=>x.y*100+x.m))].sort().map(v=>({k:`${MOIS[v%100-1]} ${Math.floor(v/100)}`,y:Math.floor(v/100),m:v%100}));
+  const rows=months.map(o=>{const G=L.filter(x=>x.y===o.y&&x.m===o.m); return Object.assign(o,{l:G.length,a:G.reduce((s,x)=>s+x.it.qty,0),b:G.reduce((s,x)=>s+x.base,0)});});
+  const maxB=Math.max(1,...rows.map(r=>r.b)); let cum=0;
+  $("dn-mtitle").textContent=Y?`Par mois en ${Y}`:"Par mois";
+  $("t-dn-mois").innerHTML=`<thead><tr><th>Mois</th><th class="num">Lignes</th><th class="num">Articles</th><th>Valeur donnée</th><th class="num">Valeur du don</th><th class="num">Réduction d'impôt</th><th class="num">Cumul${Y?" de l'année":""}</th></tr></thead><tbody>`+rows.map(r=>{ if(r.y!==(rows._y)){cum=0;rows._y=r.y;} const rd=r.b*(S.taux??60)/100; cum+=rd; return `<tr${r.l?"":` class="muted"`}><td>${r.k}</td><td class="num">${r.l}</td><td class="num">${r.a}</td><td class="bar"><div class="hbar"><span style="width:${r.b/maxB*100}%;background:var(--r-don)"></span></div></td><td class="num">${fmt(r.b)}</td><td class="num">${fmt(rd)}</td><td class="num">${fmt(cum)}</td></tr>`;}).join("")+`<tr><td><strong>Total</strong></td><td class="num"><strong>${F.length}</strong></td><td class="num"><strong>${arts}</strong></td><td></td><td class="num"><strong>${fmt(base)}</strong></td><td class="num"><strong>${fmt(red)}</strong></td><td></td></tr></tbody>`;
+  // yearly
+  $("t-dn-an").innerHTML=`<thead><tr><th>Année</th><th class="num">Articles</th><th class="num">Valeur client</th><th class="num">Valeur du don</th><th class="num">Réduction calculée</th><th class="num">Plafond</th><th class="num">Réduction utilisable</th><th class="num">Report sur 5 ans</th></tr></thead><tbody>`+years.map(y=>{const G=L.filter(x=>x.y===y); const b=G.reduce((s,x)=>s+x.base,0), r=reducOf(b); const months=new Set(G.map(x=>x.m)).size; return `<tr><td>${y} <span class="note">(${months} mois de données)</span></td><td class="num">${G.reduce((s,x)=>s+x.it.qty,0)}</td><td class="num">${fmt(G.reduce((s,x)=>s+x.it.qty*x.it.price,0))}</td><td class="num">${fmt(b)}</td><td class="num">${fmt(r)}</td><td class="num">${fmt0(cap)}</td><td class="num"><span class="cap ${r>cap?"over":"ok"}">${fmt(Math.min(r,cap))}</span></td><td class="num">${fmt(Math.max(0,r-cap))}</td></tr>`;}).join("")+"</tbody>";
+  // category
+  const bc={}; F.forEach(x=>{const b=bc[x.it.cat]||(bc[x.it.cat]={a:0,b:0}); b.a+=x.it.qty; b.b+=x.base;});
+  $("dn-ctitle").textContent=Y?`Par catégorie en ${Y}`:"Par catégorie";
+  $("t-dn-cat").innerHTML=`<thead><tr><th>Catégorie</th><th class="num">Articles</th><th class="num">Valeur du don</th><th class="num">Réduction d'impôt</th></tr></thead><tbody>`+Object.entries(bc).sort((a,b)=>b[1].b-a[1].b).map(([c,b])=>`<tr><td>${esc(c)}</td><td class="num">${b.a}</td><td class="num">${fmt(b.b)}</td><td class="num">${fmt(b.b*(S.taux??60)/100)}</td></tr>`).join("")+(Object.keys(bc).length?"":`<tr><td colspan="4" class="muted">Aucun don sur cette période.</td></tr>`)+"</tbody>";
 }
 
 /* ---------- rules & params ---------- */
@@ -488,12 +613,18 @@ function renderCases(){
 
 /* ---------- events ---------- */
 function bind(){
-  $("a-cat").onchange=()=>{fillTypes(); renderArticle();};
-  ["a-ref","a-type","a-des","a-price","a-qty","a-raison"].forEach(id=>$(id).addEventListener("input",renderArticle));
-  $("m-cat").onclick=()=>{mode="cat";$("m-cat").setAttribute("aria-pressed","true");$("m-free").setAttribute("aria-pressed","false");$("box-cat").hidden=false;$("box-free").hidden=true;renderArticle();};
-  $("m-free").onclick=()=>{mode="free";$("m-free").setAttribute("aria-pressed","true");$("m-cat").setAttribute("aria-pressed","false");$("box-cat").hidden=true;$("box-free").hidden=false;renderArticle();};
+  ["a-ref","a-uref","a-des","a-uqty","a-qty","a-raison"].forEach(id=>$(id).addEventListener("input",renderArticle));
+  $("a-result").addEventListener("click",e=>{const b=e.target.closest("#a-goknown"); if(!b) return; $("m-cat").click(); $("a-ref").value=b.dataset.ref; renderArticle();});
+  $("m-cat").onclick=()=>{mode="cat";$("m-cat").setAttribute("aria-pressed","true");$("m-free").setAttribute("aria-pressed","false");$("box-cat").hidden=false;$("box-free").hidden=true;$("box-eval").hidden=false;$("a-submit").textContent="Ajouter au lot";renderArticle();};
+  $("m-free").onclick=()=>{mode="free";$("m-free").setAttribute("aria-pressed","true");$("m-cat").setAttribute("aria-pressed","false");$("box-cat").hidden=true;$("box-free").hidden=false;$("box-eval").hidden=true;$("a-submit").textContent="Enregistrer le refus";$("a-note").hidden=true;renderArticle();};
   $("a-etat").querySelectorAll("button").forEach(b=>b.onclick=()=>{etat=b.dataset.e;$("a-etat").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));renderArticle();});
-  $("f-article").addEventListener("submit",e=>{e.preventDefault(); const it=currentItem(); S.added.push(Object.assign({no:"AJOUT-"+(S.added.length+1),br:""},it)); save(); refreshAll(); toast("Retour ajouté au lot ("+allRet().length+" lignes)");});
+  $("f-article").addEventListener("submit",e=>{e.preventDefault(); const it=currentItem();
+    if(it.unknown){ if(it.ref&&stock.find(s=>norm(s.ref)===norm(it.ref.replace(/[BC]$/i,"")))){ toast("Référence connue : saisissez-la comme article du catalogue"); return; } S.refused.push({no:"REFUS-"+(S.refused.length+1),ref:it.ref,des:it.des,qty:it.qty,date:today()}); save(); refreshAll(); toast("Refus enregistré ("+S.refused.length+")"); return; }
+    S.added.push(Object.assign({no:"AJOUT-"+(S.added.length+1),br:"",date:today()},it)); save(); refreshAll(); toast("Retour ajouté au lot ("+allRet().length+" lignes)");});
+  ["dn-year"].forEach(id=>$(id).addEventListener("change",renderDons));
+  $("dn-taux").addEventListener("change",()=>{let v=parseFloat($("dn-taux").value); if(isNaN(v)||v<0) v=0; S.taux=Math.min(100,v); save(); renderDons();});
+  $("dn-ca").addEventListener("change",()=>{let v=parseFloat($("dn-ca").value); if(isNaN(v)||v<0) v=0; S.ca=v; save(); renderDons();});
+  $("t-refused").addEventListener("click",e=>{const b=e.target.closest("[data-rdel]"); if(!b) return; S.refused.splice(+b.dataset.rdel,1); save(); refreshAll(); toast("Refus retiré");});
   ["fl-voie","fl-cat","fl-etat","fl-alerte"].forEach(id=>$(id).addEventListener("change",()=>{shown=50;renderTable();}));
   $("more").onclick=()=>{shown+=50;renderTable();};
   $("t-retours").addEventListener("click",e=>{const tr=e.target.closest("tr[data-i]"); if(tr) openInArticle(computed[+tr.dataset.i].it);});
@@ -505,7 +636,7 @@ function bind(){
   $("t-rules").addEventListener("click",e=>{const b=e.target.closest("[data-del]"); if(!b) return; const r=S.rules.splice(+b.dataset.del,1)[0]; save(); refreshAll(); toast(`Règle ${r.id} supprimée`);});
   $("nr-cat").onchange=fillNrTypes;
   $("f-rule").addEventListener("submit",e=>{e.preventDefault(); let n=1; while(S.rules.find(r=>r.id==="N"+n)) n++; const mn=parseFloat($("nr-min").value); const r={prio:parseFloat($("nr-prio").value)||0,id:"N"+n,cat:$("nr-cat").value,type:$("nr-type").value,etat:$("nr-etat").value,min:isNaN(mn)?null:mn,sv:null,voie:$("nr-voie").value,just:$("nr-just").value.trim()||"Règle ajoutée dans l'outil"}; S.rules.push(r); save(); refreshAll(); toast(`Règle ${r.id} ajoutée`);});
-  $("reset").onclick=()=>{S={rules:JSON.parse(JSON.stringify(ORIG.rules)),params:JSON.parse(JSON.stringify(ORIG.params)),espr:"oui",added:[],sig:SRC}; save(); initForms(); refreshAll(); toast("Données chargées rétablies");};
+  $("reset").onclick=()=>{S={rules:JSON.parse(JSON.stringify(ORIG.rules)),params:JSON.parse(JSON.stringify(ORIG.params)),espr:"oui",added:[],refused:[],taux:60,ca:10000000,sig:SRC}; save(); initForms(); refreshAll(); toast("Données chargées rétablies");};
   $("xlsx").addEventListener("change",async e=>{const f=e.target.files[0]; if(!f) return; try{ if(!window.XLSX) throw new Error("lecteur Excel indisponible"); const wb=XLSX.read(await f.arrayBuffer(),{type:"array"}); const get=n=>{const k=wb.SheetNames.find(x=>norm(x)===norm(n))||wb.SheetNames.find(x=>norm(x).startsWith(norm(n)+" ")); if(!k) throw new Error("onglet « "+n+" » introuvable"); return XLSX.utils.sheet_to_json(wb.Sheets[k],{header:1,raw:false,defval:""}).map(r=>r.map(v=>String(v)));};
     const sh={STOCK:get("STOCK"),RETOURS:get("RETOURS CLIENTS INBOUND"),REGLES:get("Règles de Décision"),PARAMS:get("Paramètres"),JURIDIQUE:get("Juridique"),CAS:get("Cas limites")};
     parseSheets(sh); SHEET=sh; SRC=`fichier « ${f.name} » importé le ${new Date().toLocaleString("fr-FR")}`; try{ localStorage.setItem(KEY+"-sheet",JSON.stringify({sheet:sh,src:SRC})); }catch(_){}
@@ -513,10 +644,10 @@ function bind(){
     load(); initForms(); refreshAll(); toast("Données rechargées depuis le fichier");
   }catch(err){ toast("Import impossible : "+err.message); } e.target.value="";});
 }
-const VIEWS=["article","lot","regles","matrice","conformite","cas-limites","methode"];
-function route(){ const h=location.hash.slice(1); const v=VIEWS.includes(h)?h:"article"; document.querySelectorAll("[data-v]").forEach(s=>s.hidden=s.dataset.v!==v); document.querySelectorAll("nav.tabs a").forEach(a=>a.setAttribute("aria-current",a.dataset.view===v?"page":"false")); }
+const VIEWS=["accueil","article","lot","dons","regles","matrice","conformite","cas-limites","methode"];
+function route(){ const h=location.hash.slice(1); const v=VIEWS.includes(h)?h:"accueil"; document.body.dataset.view=v; window.scrollTo(0,0); document.querySelectorAll("[data-v]").forEach(s=>s.hidden=s.dataset.v!==v); document.querySelectorAll("nav.tabs a").forEach(a=>a.setAttribute("aria-current",a.dataset.view===v?"page":"false")); }
 window.addEventListener("hashchange",route);
-function refreshAll(){ renderArticle(); renderLot(); renderParams(); renderRules(); renderMatrix(); renderAlerts(); renderCases(); $("src-info").innerHTML=`Source : ${esc(SRC)}. ${stock.length} références, ${baseRet.length} retours, ${S.rules.length} règles, ${D.alerts.length} alertes, ${D.cases.length} cas limites.`; }
+function refreshAll(){ renderArticle(); renderLot(); renderRefused(); renderDons(); renderParams(); renderRules(); renderMatrix(); renderAlerts(); renderCases(); $("src-info").innerHTML=`Source : ${esc(SRC)}. ${stock.length} références, ${baseRet.length} retours, ${S.rules.length} règles, ${D.alerts.length} alertes, ${D.cases.length} cas limites.`; }
 load(); initForms(); bind(); refreshAll(); route();
 </script>
 
