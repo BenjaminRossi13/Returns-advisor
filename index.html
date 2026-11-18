@@ -505,8 +505,9 @@ function createRef(){
   const des=$("a-des").value.trim()||(type==="AUTRE"?"Nouvel article":type.charAt(0)+type.slice(1).toLowerCase());
   const s={cat,ref,des,qty:0,price,type}; S.created.push(s); stock.push(Object.assign({},s)); save();
   const keep=$("a-uqty").value; initForms(); $("box-create").hidden=true;
-  $("m-cat").click(); $("a-ref").value=ref; $("a-qty").value=keep; renderArticle(); refreshAll();
-  toast(`Référence ${ref} créée : le retour peut être traité`);
+  $("m-cat").click(); $("a-ref").value=ref; $("a-qty").value=keep; renderArticle();
+  S.added.push(Object.assign({no:"AJOUT-"+(S.added.length+1),br:"",date:today()},currentItem())); save(); refreshAll();
+  toast(`Référence ${ref} créée et retour ajouté au lot (${allRet().length} lignes)`);
 }
 function fillNrTypes(){ const c=$("nr-cat").value; const ts=c==="TOUTES"?TYPES.slice().sort():typesFor(c); $("nr-type").innerHTML=["TOUTES"].concat(ts).map(t=>`<option>${esc(t)}</option>`).join(""); }
 function currentItem(){
