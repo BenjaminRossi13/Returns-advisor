@@ -631,7 +631,7 @@ function renderDons(){
 function renderParams(){
   const cats=CATS();
   $("t-params").innerHTML=`<thead><tr><th>Voie</th>${cats.map(c=>`<th class="num">${esc(c)}<br>coût / art.</th><th class="num">${esc(c)}<br>% récupéré</th>`).join("")}</tr></thead><tbody>`+
-   ROUTES.map(v=>`<tr><td><span class="pill">${dot(v)}${v}</span></td>${cats.map(c=>{const p=param(c,v); if(!p) return `<td class="num">—</td><td class="num">—</td>`; const o=ORIG.params.find(x=>x.cat===c&&x.voie===v)||p; return `<td class="num${p.cout!==o.cout?" changed":""}"><input class="inl" type="number" step="0.1" min="0" id="pc-${v}-${c}" data-c="${esc(c)}" data-v="${v}" data-f="cout" value="${p.cout}" aria-label="Coût ${v} ${esc(c)}"></td><td class="num${p.pct!==o.pct?" changed":""}"><input class="inl" type="number" step="5" min="0" max="100" id="pp-${v}-${c}" data-c="${esc(c)}" data-v="${v}" data-f="pct" value="${Math.round(p.pct*1000)/10}" aria-label="Pourcentage ${v} ${esc(c)}"></td>`;}).join("")}</tr>`).join("")+"</tbody>";
+   ROUTES.map(v=>`<tr><td><span class="pill">${dot(v)}${v}</span></td>${cats.map(c=>{const p=param(c,v); if(!p) return `<td class="num">—</td><td class="num">—</td>`; const o=ORIG.params.find(x=>x.cat===c&&x.voie===v)||p; return `<td class="num${p.cout!==o.cout?" changed":""}"><input class="inl" type="number" step="0.1" min="0" id="pc-${v}-${c}" data-c="${esc(c)}" data-voie="${v}" data-f="cout" value="${p.cout}" aria-label="Coût ${v} ${esc(c)}"></td><td class="num${p.pct!==o.pct?" changed":""}"><input class="inl" type="number" step="5" min="0" max="100" id="pp-${v}-${c}" data-c="${esc(c)}" data-voie="${v}" data-f="pct" value="${Math.round(p.pct*1000)/10}" aria-label="Pourcentage ${v} ${esc(c)}"></td>`;}).join("")}</tr>`).join("")+"</tbody>";
 }
 function renderRules(){
   const fc=$("rf-cat").value, fe=$("rf-etat").value;
@@ -683,7 +683,7 @@ function bind(){
   $("t-retours").addEventListener("keydown",e=>{if(e.key==="Enter"){const tr=e.target.closest("tr[data-i]"); if(tr) openInArticle(computed[+tr.dataset.i].it);}});
   ["rf-cat","rf-etat"].forEach(id=>$(id).onchange=renderRules);
   $("espr").onchange=()=>{S.espr=$("espr").value; save(); refreshAll();};
-  $("t-params").addEventListener("change",e=>{const t=e.target; if(!t.dataset.f) return; const p=param(t.dataset.c,t.dataset.v); let v=parseFloat(t.value); if(isNaN(v)||v<0) v=0; if(t.dataset.f==="pct") v=Math.min(100,v)/100; p[t.dataset.f]=v; save(); refreshAll(); toast("Paramètre mis à jour");});
+  $("t-params").addEventListener("change",e=>{const t=e.target; if(!t.dataset.f) return; const p=param(t.dataset.c,t.dataset.voie); let v=parseFloat(t.value); if(isNaN(v)||v<0) v=0; if(t.dataset.f==="pct") v=Math.min(100,v)/100; p[t.dataset.f]=v; save(); refreshAll(); toast("Paramètre mis à jour");});
   $("t-rules").addEventListener("change",e=>{const t=e.target; if(t.dataset.i===undefined) return; const r=S.rules[+t.dataset.i]; if(t.dataset.f==="voie") r.voie=t.value; if(t.dataset.f==="prio") r.prio=parseFloat(t.value)||0; if(t.dataset.f==="min"){ const v=parseFloat(t.value); r.min=isNaN(v)?null:v; } save(); refreshAll(); toast(`Règle ${r.id} mise à jour`);});
   $("t-rules").addEventListener("click",e=>{const b=e.target.closest("[data-del]"); if(!b) return; const r=S.rules.splice(+b.dataset.del,1)[0]; save(); refreshAll(); toast(`Règle ${r.id} supprimée`);});
   $("nr-cat").onchange=fillNrTypes;
@@ -698,7 +698,7 @@ function bind(){
   }catch(err){ toast("Import impossible : "+err.message); } e.target.value="";});
 }
 const VIEWS=["accueil","article","lot","dons","regles","matrice","conformite","cas-limites","methode"];
-function route(){ const h=location.hash.slice(1); const v=VIEWS.includes(h)?h:"accueil"; document.body.dataset.view=v; window.scrollTo(0,0); document.querySelectorAll("[data-v]").forEach(s=>s.hidden=s.dataset.v!==v); document.querySelectorAll("nav.tabs a").forEach(a=>a.setAttribute("aria-current",a.dataset.view===v?"page":"false")); }
+function route(){ const h=location.hash.slice(1); const v=VIEWS.includes(h)?h:"accueil"; document.body.dataset.view=v; window.scrollTo(0,0); document.querySelectorAll("[data-v]:not(input)").forEach(s=>s.hidden=s.dataset.v!==v); document.querySelectorAll("nav.tabs a").forEach(a=>a.setAttribute("aria-current",a.dataset.view===v?"page":"false")); }
 window.addEventListener("hashchange",route);
 function srcText(){ const st=LIVE==="ok"?"":LIVE==="attente"?" Lecture du Google Sheet en cours…":" Google Sheet injoignable : copie intégrée utilisée."; return `Source : ${esc(SRC)}.${st} ${stock.length} références, ${baseRet.length} retours, ${S.rules.length} règles, ${D.alerts.length} alertes, ${D.cases.length} cas limites.`; }
 function refreshAll(){ renderArticle(); renderLot(); renderRefused(); renderDons(); renderParams(); renderRules(); renderMatrix(); renderAlerts(); renderCases(); $("src-info").innerHTML=srcText(); }
