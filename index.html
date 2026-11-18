@@ -426,7 +426,7 @@ function parseSheets(S){
 
 /* ---------- state ---------- */
 const KEY="rda-proto0-v5";
-let SHEET=SHEET0, SRC="copie intégrée du Google Sheet « HUMAN & AI V2 » du 17/11/2026";
+let SHEET=SHEET0, SRC="copie intégrée du Google Sheet « Group-5_Donnees-Sheet » du 17/11/2026";
 try{ const s=JSON.parse(localStorage.getItem(KEY+"-sheet")||"null"); if(s&&s.sheet){ SHEET=s.sheet; SRC=s.src; } }catch(e){}
 const PUB="https://docs.google.com/spreadsheets/d/e/2PACX-1vQOUc_-_Oo7_dKNFqZNcRQh6y0sLJPT_JFKvUUGiRSLWu8b4xTfE69QZrPywY84hsxhZdih3GHdFiXl/pub";
 const GIDS={STOCK:2045033122,RETOURS:345175006,REGLES:376336497,PARAMS:134706119,JURIDIQUE:1876462567,CAS:871158780};
@@ -442,7 +442,7 @@ async function loadLive(){
     const sh=Object.fromEntries(ent); parseSheets(sh);
     if(IMPORTED) return;
     const changed=sigOf(sh)!==sigOf(SHEET);
-    SHEET=sh; SRC=`Google Sheet « HUMAN & AI V2 » lu en direct le ${new Date().toLocaleString("fr-FR",{dateStyle:"short",timeStyle:"short"})}`; LIVE="ok";
+    SHEET=sh; SRC=`Google Sheet « Group-5_Donnees-Sheet » lu en direct le ${new Date().toLocaleString("fr-FR",{dateStyle:"short",timeStyle:"short"})}`; LIVE="ok";
     try{ localStorage.removeItem(KEY+"-sheet"); }catch(_){}
     if(changed){ load(); initForms(); refreshAll(); toast("Données mises à jour depuis le Google Sheet"); } else { refreshAll(); }
   }catch(e){ LIVE="échec"; refreshAll(); }
